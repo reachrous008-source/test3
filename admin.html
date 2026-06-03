@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prime Kits — Admin Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    :root {
+      --black:      #000000;
+      --black-soft: #0a0a0a;
+      --black-card: #111111;
+      --black-alt:  #1a1a1a;
+      --black-line: #222222;
+      --black-hover:#161616;
+      --white:      #ffffff;
+      --white-dim:  #aaaaaa;
+      --white-faint:#555555;
+      --gold:       #c9a84c;
+      --gold-light: #e8c96e;
+      --gold-dark:  #9a7a35;
+      --gold-glow:  rgba(201,168,76,0.15);
+      --red:        #c0392b;
+      --red-soft:   rgba(192,57,43,0.12);
+      --green:      #27ae60;
+      --green-soft: rgba(39,174,96,0.12);
+      --blue:       #2980b9;
+      --blue-soft:  rgba(41,128,185,0.12);
+      --font-display:'Bebas Neue', sans-serif;
+      --font-serif:  'Cormorant Garamond', serif;
+      --font-body:   'Montserrat', sans-serif;
+      --radius:   4px;
+      --radius-md:8px;
+      --shadow:   0 8px 32px rgba(0,0,0,0.6);
+      --shadow-gold:0 0 24px rgba(201,168,76,0.2);
+      --trans:    all 0.25s cubic-bezier(0.25,0.46,0.45,0.94);
+      --sidebar-w:260px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--white);font-family:var(--font-body);font-size:14px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    ul{list-style:none}
+    button{cursor:pointer;font-family:var(--font-body);border:none;background:none}
+    input,select,textarea{font-family:var(--font-body)}
+    ::-webkit-scrollbar{width:4px}
+    ::-webkit-scrollbar-track{background:var(--black)}
+    ::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:2px}
+
+    /* ── LOGIN SCREEN ── */
+    #login-screen {
+      position:fixed;inset:0;z-index:9999;
+      background:var(--black);
+      display:flex;align-items:center;justify-content:center;
+    }
+    #login-screen.hidden{display:none}
+    .login-box {
+      width:100%;max-width:400px;padding:24px;
+      text-align:center;
+    }
+    .login-logo {
+      font-family:var(--font-display);
+      font-size:2.5rem;letter-spacing:0.3em;
+      color:var(--gold);margin-bottom:4px;
+    }
+    .login-sub {
+      font-size:0.65rem;letter-spacing:0.25em;
+      color:var(--white-faint);text-transform:uppercase;
+      margin-bottom:40px;
+    }
+    .login-field {
+      display:flex;align-items:center;gap:10px;
+      background:var(--black-card);
+      border:1px solid var(--black-line);
+      padding:12px 16px;margin-bottom:12px;
+      transition:var(--trans);
+    }
+    .login-field:focus-within{border-color:var(--gold)}
+    .login-field i{color:var(--white-faint);width:16px;text-align:center}
+    .login-field input{
+      flex:1;background:none;border:none;outline:none;
+      color:var(--white);font-size:0.85rem;
+    }
+    .login-field input::placeholder{color:var(--white-faint)}
+    .login-btn {
+      width:100%;background:var(--gold);color:var(--black);
+      font-family:var(--font-display);font-size:1.1rem;
+      letter-spacing:0.2em;padding:14px;
+      margin-top:8px;transition:var(--trans);
+    }
+    .login-btn:hover{background:var(--gold-light)}
+    .login-err {
+      font-size:0.75rem;color:var(--red);
+      margin-top:12px;min-height:20px;
+    }
+    .login-divider {
+      width:60px;height:1px;background:var(--gold-dark);
+      margin:24px auto;
+    }
+
+    /* ── APP LAYOUT ── */
+    #admin-app{display:flex;min-height:100vh}
+    #admin-app.hidden{display:none}
+
+    /* ── SIDEBAR ── */
+    #admin-sidebar {
+      width:var(--sidebar-w);flex-shrink:0;
+      background:var(--black-soft);
+      border-right:1px solid var(--black-line);
+      display:flex;flex-direction:column;
+      position:fixed;top:0;left:0;bottom:0;
+      z-index:500;
+      transition:transform 0.35s cubic-bezier(0.77,0,0.175,1);
+    }
+    .sidebar-logo {
+      padding:24px 20px;
+      border-bottom:1px solid var(--black-line);
+      display:flex;align-items:center;gap:10px;
+    }
+    .sidebar-logo-text {
+      font-family:var(--font-display);
+      font-size:1.3rem;letter-spacing:0.2em;color:var(--gold);
+    }
+    .sidebar-logo-badge {
+      font-size:0.55rem;letter-spacing:0.15em;
+      color:var(--white-faint);text-transform:uppercase;
+      background:var(--black-line);padding:2px 6px;border-radius:2px;
+    }
+    .sidebar-nav{flex:1;overflow-y:auto;padding:12px 0}
+    .sidebar-section-label {
+      font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;
+      color:var(--white-faint);padding:16px 20px 6px;
+    }
+    .sidebar-link {
+      display:flex;align-items:center;gap:12px;
+      padding:11px 20px;
+      color:var(--white-dim);font-size:0.78rem;
+      font-weight:500;letter-spacing:0.04em;
+      cursor:pointer;transition:var(--trans);
+      border-left:2px solid transparent;
+    }
+    .sidebar-link i{width:16px;text-align:center;font-size:0.85rem}
+    .sidebar-link:hover{color:var(--white);background:var(--black-hover)}
+    .sidebar-link.active {
+      color:var(--gold);background:var(--gold-glow);
+      border-left-color:var(--gold);
+    }
+    .sidebar-footer {
+      padding:16px 20px;
+      border-top:1px solid var(--black-line);
+    }
+    .sidebar-user {
+      display:flex;align-items:center;gap:10px;margin-bottom:12px;
+    }
+    .sidebar-avatar {
+      width:32px;height:32px;border-radius:50%;
+      background:var(--gold-dark);
+      display:flex;align-items:center;justify-content:center;
+      font-size:0.75rem;font-weight:700;color:var(--black);flex-shrink:0;
+    }
+    .sidebar-user-info p{font-size:0.72rem;font-weight:600}
+    .sidebar-user-info span{font-size:0.62rem;color:var(--white-faint)}
+    .logout-btn {
+      width:100%;display:flex;align-items:center;gap:8px;
+      padding:9px 12px;color:var(--white-faint);font-size:0.72rem;
+      border:1px solid var(--black-line);
+      transition:var(--trans);
+    }
+    .logout-btn:hover{color:var(--red);border-color:var(--red)}
+
+    /* ── MAIN CONTENT ── */
+    #admin-main {
+      margin-left:var(--sidebar-w);flex:1;
+      display:flex;flex-direction:column;min-height:100vh;
+    }
+    #admin-topbar {
+      height:60px;display:flex;align-items:center;
+      justify-content:space-between;
+      padding:0 28px;
+      background:var(--black-soft);
+      border-bottom:1px solid var(--black-line);
+      position:sticky;top:0;z-index:400;
+    }
+    .topbar-title {
+      font-family:var(--font-display);
+      font-size:1.3rem;letter-spacing:0.15em;color:var(--white);
+    }
+    .topbar-title span{color:var(--gold)}
+    .topbar-actions{display:flex;align-items:center;gap:12px}
+    .topbar-badge {
+      font-size:0.65rem;letter-spacing:0.1em;
+      background:var(--green-soft);color:var(--green);
+      border:1px solid rgba(39,174,96,0.3);
+      padding:4px 10px;border-radius:2px;
+    }
+    #hamburger-admin {
+      display:none;padding:6px;color:var(--white-dim);
+      font-size:1.1rem;
+    }
+    #admin-content{flex:1;padding:28px;overflow-y:auto}
+
+    /* ── PANELS ── */
+    .admin-panel{display:none;animation:fadeIn 0.2s ease}
+    .admin-panel.active{display:block}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+    /* ── STAT CARDS ── */
+    .stats-grid {
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:16px;margin-bottom:28px;
+    }
+    .stat-card {
+      background:var(--black-card);
+      border:1px solid var(--black-line);
+      padding:20px;
+      transition:var(--trans);
+    }
+    .stat-card:hover{border-color:var(--gold-dark)}
+    .stat-icon {
+      width:40px;height:40px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1rem;margin-bottom:12px;
+    }
+    .stat-icon.gold{background:var(--gold-glow);color:var(--gold)}
+    .stat-icon.green{background:var(--green-soft);color:var(--green)}
+    .stat-icon.blue{background:var(--blue-soft);color:var(--blue)}
+    .stat-icon.red{background:var(--red-soft);color:var(--red)}
+    .stat-value {
+      font-family:var(--font-display);
+      font-size:2rem;letter-spacing:0.05em;color:var(--white);
+    }
+    .stat-label {
+      font-size:0.65rem;letter-spacing:0.12em;
+      text-transform:uppercase;color:var(--white-faint);margin-top:2px;
+    }
+
+    /* ── SECTION HEADERS ── */
+    .panel-header {
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:20px;flex-wrap:wrap;gap:12px;
+    }
+    .panel-title {
+      font-family:var(--font-display);
+      font-size:1.5rem;letter-spacing:0.1em;
+    }
+    .panel-title span{color:var(--gold)}
+
+    /* ── BUTTONS ── */
+    .btn {
+      display:inline-flex;align-items:center;gap:7px;
+      padding:9px 18px;font-size:0.73rem;
+      font-weight:600;letter-spacing:0.08em;
+      transition:var(--trans);cursor:pointer;
+    }
+    .btn-gold {
+      background:var(--gold);color:var(--black);
+      font-family:var(--font-display);font-size:0.85rem;
+      letter-spacing:0.15em;
+    }
+    .btn-gold:hover{background:var(--gold-light)}
+    .btn-outline {
+      background:transparent;color:var(--white-dim);
+      border:1px solid var(--black-line);
+    }
+    .btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+    .btn-danger {
+      background:var(--red-soft);color:var(--red);
+      border:1px solid rgba(192,57,43,0.3);
+    }
+    .btn-danger:hover{background:var(--red);color:var(--white)}
+    .btn-sm{padding:6px 12px;font-size:0.68rem}
+    .btn-icon{width:32px;height:32px;padding:0;justify-content:center}
+
+    /* ── TABLE ── */
+    .admin-table-wrap{overflow-x:auto;margin-top:4px}
+    .admin-table {
+      width:100%;border-collapse:collapse;
+    }
+    .admin-table th {
+      text-align:left;padding:10px 14px;
+      font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;
+      color:var(--white-faint);
+      border-bottom:1px solid var(--black-line);
+      font-weight:600;white-space:nowrap;
+    }
+    .admin-table td {
+      padding:13px 14px;
+      border-bottom:1px solid rgba(34,34,34,0.6);
+      font-size:0.78rem;vertical-align:middle;
+    }
+    .admin-table tr:hover td{background:var(--black-hover)}
+    .admin-table img{width:48px;height:48px;object-fit:cover;background:var(--black-alt)}
+    .tbl-actions{display:flex;gap:6px}
+    .badge {
+      display:inline-block;padding:3px 8px;
+      font-size:0.6rem;letter-spacing:0.1em;font-weight:700;
+      text-transform:uppercase;
+    }
+    .badge-new{background:var(--blue-soft);color:var(--blue);border:1px solid rgba(41,128,185,0.3)}
+    .badge-sale{background:var(--red-soft);color:var(--red);border:1px solid rgba(192,57,43,0.3)}
+    .badge-featured{background:var(--gold-glow);color:var(--gold);border:1px solid rgba(201,168,76,0.3)}
+    .badge-pending{background:rgba(243,156,18,0.12);color:#f39c12;border:1px solid rgba(243,156,18,0.3)}
+    .badge-confirmed{background:var(--blue-soft);color:var(--blue);border:1px solid rgba(41,128,185,0.3)}
+    .badge-shipped{background:var(--green-soft);color:var(--green);border:1px solid rgba(39,174,96,0.3)}
+    .badge-delivered{background:rgba(39,174,96,0.2);color:#2ecc71;border:1px solid rgba(46,204,113,0.3)}
+    .badge-cancelled{background:var(--red-soft);color:var(--red);border:1px solid rgba(192,57,43,0.3)}
+
+    /* ── FORMS ── */
+    .form-grid {
+      display:grid;grid-template-columns:1fr 1fr;gap:16px;
+    }
+    .form-grid.cols-1{grid-template-columns:1fr}
+    .form-grid.cols-3{grid-template-columns:1fr 1fr 1fr}
+    .form-full{grid-column:1/-1}
+    .form-group{display:flex;flex-direction:column;gap:6px}
+    .form-label {
+      font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;
+      color:var(--white-faint);font-weight:600;
+    }
+    .form-input {
+      background:var(--black-card);
+      border:1px solid var(--black-line);
+      color:var(--white);padding:10px 14px;
+      font-size:0.82rem;outline:none;
+      transition:var(--trans);width:100%;
+    }
+    .form-input:focus{border-color:var(--gold)}
+    .form-input::placeholder{color:var(--white-faint)}
+    .form-select{appearance:none}
+    .form-textarea{resize:vertical;min-height:100px}
+    .form-hint{font-size:0.65rem;color:var(--white-faint)}
+
+    /* image upload */
+    .upload-zone {
+      border:2px dashed var(--black-line);
+      padding:32px;text-align:center;
+      cursor:pointer;transition:var(--trans);
+      background:var(--black-card);
+    }
+    .upload-zone:hover,.upload-zone.drag-over{
+      border-color:var(--gold);background:var(--gold-glow);
+    }
+    .upload-zone i{font-size:2rem;color:var(--white-faint);margin-bottom:8px}
+    .upload-zone p{font-size:0.75rem;color:var(--white-faint)}
+    .upload-zone span{color:var(--gold);font-weight:600}
+    .upload-previews{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    .upload-preview-item{
+      position:relative;width:80px;height:80px;
+    }
+    .upload-preview-item img{
+      width:100%;height:100%;object-fit:cover;
+    }
+    .upload-preview-remove {
+      position:absolute;top:-6px;right:-6px;
+      width:20px;height:20px;
+      background:var(--red);color:var(--white);
+      border-radius:50%;font-size:0.7rem;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .upload-preview-remove:hover{background:darkred}
+
+    /* sizes chips */
+    .size-chips{display:flex;flex-wrap:wrap;gap:8px;padding-top:4px}
+    .size-chip {
+      padding:6px 14px;font-size:0.72rem;
+      border:1px solid var(--black-line);
+      cursor:pointer;transition:var(--trans);
+      font-weight:600;letter-spacing:0.05em;
+      user-select:none;
+    }
+    .size-chip.selected{border-color:var(--gold);background:var(--gold-glow);color:var(--gold)}
+    .size-chip:hover{border-color:var(--white-faint)}
+
+    /* ── MODAL ── */
+    .modal-backdrop {
+      position:fixed;inset:0;z-index:800;
+      background:rgba(0,0,0,0.85);
+      display:flex;align-items:center;justify-content:center;
+      padding:16px;opacity:0;visibility:hidden;
+      transition:opacity 0.25s ease,visibility 0.25s ease;
+    }
+    .modal-backdrop.open{opacity:1;visibility:visible}
+    .modal-box {
+      background:var(--black-card);
+      border:1px solid var(--black-line);
+      width:100%;max-width:680px;
+      max-height:90vh;overflow-y:auto;
+      position:relative;
+    }
+    .modal-header {
+      display:flex;align-items:center;justify-content:space-between;
+      padding:20px 24px;
+      border-bottom:1px solid var(--black-line);
+      position:sticky;top:0;background:var(--black-card);z-index:1;
+    }
+    .modal-header h3 {
+      font-family:var(--font-display);
+      font-size:1.3rem;letter-spacing:0.1em;
+    }
+    .modal-header h3 span{color:var(--gold)}
+    .modal-close-btn {
+      color:var(--white-dim);font-size:1.1rem;
+      transition:var(--trans);
+    }
+    .modal-close-btn:hover{color:var(--gold)}
+    .modal-body{padding:24px}
+    .modal-footer {
+      padding:16px 24px;
+      border-top:1px solid var(--black-line);
+      display:flex;gap:10px;justify-content:flex-end;
+      background:var(--black-card);
+    }
+
+    /* ── SETTINGS TABS ── */
+    .settings-tabs {
+      display:flex;gap:0;
+      border-bottom:1px solid var(--black-line);
+      margin-bottom:24px;overflow-x:auto;
+    }
+    .settings-tab {
+      padding:10px 20px;
+      font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
+      font-weight:600;color:var(--white-faint);
+      cursor:pointer;border-bottom:2px solid transparent;
+      white-space:nowrap;transition:var(--trans);
+    }
+    .settings-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+    .settings-tab:hover{color:var(--white)}
+    .settings-pane{display:none}
+    .settings-pane.active{display:block}
+
+    /* ── CATEGORY GRID ── */
+    .cat-admin-grid {
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+      gap:14px;
+    }
+    .cat-admin-card {
+      background:var(--black-card);border:1px solid var(--black-line);
+      overflow:hidden;transition:var(--trans);
+    }
+    .cat-admin-card:hover{border-color:var(--gold-dark)}
+    .cat-admin-img {
+      width:100%;height:120px;object-fit:cover;background:var(--black-alt);
+    }
+    .cat-admin-info{padding:12px}
+    .cat-admin-name{font-size:0.8rem;font-weight:600;margin-bottom:2px}
+    .cat-admin-count{font-size:0.65rem;color:var(--white-faint);margin-bottom:10px}
+    .cat-admin-actions{display:flex;gap:6px}
+
+    /* ── ORDER DETAIL ── */
+    .order-detail-grid {
+      display:grid;grid-template-columns:1fr 1fr;gap:20px;
+    }
+    .info-block{background:var(--black-alt);padding:16px;border:1px solid var(--black-line)}
+    .info-block-title {
+      font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;
+      color:var(--white-faint);margin-bottom:12px;padding-bottom:8px;
+      border-bottom:1px solid var(--black-line);
+    }
+    .info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:0.78rem}
+    .info-row span:first-child{color:var(--white-faint)}
+    .order-items-list .order-item-row {
+      display:flex;gap:12px;align-items:center;
+      padding:10px 0;border-bottom:1px solid rgba(34,34,34,0.6);
+    }
+    .order-item-img{width:48px;height:48px;object-fit:cover;background:var(--black-alt)}
+    .order-item-name{font-size:0.78rem;font-weight:600}
+    .order-item-meta{font-size:0.68rem;color:var(--white-faint);margin-top:2px}
+    .order-item-price{margin-left:auto;font-size:0.82rem;color:var(--gold);font-weight:600}
+
+    /* ── STATUS SELECT ── */
+    .status-select{
+      background:var(--black-alt);border:1px solid var(--black-line);
+      color:var(--white);padding:6px 10px;font-size:0.75rem;outline:none;
+    }
+    .status-select:focus{border-color:var(--gold)}
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align:center;padding:60px 24px;color:var(--white-faint);
+    }
+    .empty-state i{font-size:2.5rem;margin-bottom:12px;color:var(--black-line)}
+    .empty-state p{font-size:0.82rem}
+
+    /* ── TOAST ── */
+    #admin-toast {
+      position:fixed;bottom:24px;right:24px;z-index:9999;
+      display:flex;flex-direction:column;gap:8px;
+    }
+    .a-toast {
+      background:var(--black-card);border:1px solid var(--gold);
+      border-left:3px solid var(--gold);
+      padding:12px 18px;font-size:0.78rem;
+      min-width:260px;animation:toastIn 0.3s ease;
+      display:flex;align-items:center;gap:8px;
+      box-shadow:var(--shadow);
+    }
+    .a-toast.err{border-color:var(--red);border-left-color:var(--red)}
+    .a-toast.ok{border-color:var(--green);border-left-color:var(--green)}
+    @keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+
+    /* ── LOADER ── */
+    .spinner {
+      width:20px;height:20px;
+      border:2px solid var(--black-line);
+      border-top-color:var(--gold);
+      border-radius:50%;
+      animation:spin 0.7s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loading-overlay {
+      position:absolute;inset:0;
+      background:rgba(0,0,0,0.5);
+      display:flex;align-items:center;justify-content:center;
+      z-index:10;
+    }
+
+    /* ── TOGGLE ── */
+    .toggle-wrap{display:flex;align-items:center;gap:10px}
+    .toggle{
+      position:relative;width:44px;height:24px;cursor:pointer;
+    }
+    .toggle input{opacity:0;width:0;height:0}
+    .toggle-slider{
+      position:absolute;inset:0;
+      background:var(--black-line);border-radius:24px;
+      transition:var(--trans);
+    }
+    .toggle-slider::before{
+      content:'';position:absolute;
+      width:18px;height:18px;
+      background:var(--white-dim);
+      border-radius:50%;top:3px;left:3px;
+      transition:var(--trans);
+    }
+    input:checked+.toggle-slider{background:var(--gold)}
+    input:checked+.toggle-slider::before{transform:translateX(20px);background:var(--black)}
+
+    /* ── SEARCH BAR ── */
+    .search-bar {
+      display:flex;align-items:center;gap:8px;
+      background:var(--black-card);border:1px solid var(--black-line);
+      padding:8px 14px;max-width:280px;
+    }
+    .search-bar input{
+      background:none;border:none;outline:none;
+      color:var(--white);font-size:0.78rem;flex:1;
+    }
+    .search-bar input::placeholder{color:var(--white-faint)}
+    .search-bar i{color:var(--white-faint);font-size:0.8rem}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){
+      #admin-sidebar{transform:translateX(-100%)}
+      #admin-sidebar.open{transform:translateX(0)}
+      #admin-main{margin-left:0}
+      #hamburger-admin{display:flex}
+      .form-grid{grid-template-columns:1fr}
+      .form-grid.cols-3{grid-template-columns:1fr}
+      .order-detail-grid{grid-template-columns:1fr}
+      #sidebar-overlay{
+        position:fixed;inset:0;z-index:490;
+        background:rgba(0,0,0,0.7);
+        display:none;
+      }
+      #sidebar-overlay.open{display:block}
+    }
+    @media(max-width:600px){
+      #admin-content{padding:16px}
+      .stats-grid{grid-template-columns:1fr 1fr}
+      .cat-admin-grid{grid-template-columns:1fr 1fr}
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">PRIME KITS</div>
+    <div class="login-sub">Admin Dashboard</div>
+    <div class="login-divider"></div>
+    <div class="login-field">
+      <i class="fa-solid fa-envelope"></i>
+      <input type="email" id="login-email" placeholder="Admin email" autocomplete="email" />
+    </div>
+    <div class="login-field">
+      <i class="fa-solid fa-lock"></i>
+      <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" />
+    </div>
+    <button class="login-btn" id="login-btn">
+      <span id="login-btn-text">SIGN IN</span>
+    </button>
+    <p class="login-err" id="login-err"></p>
+  </div>
+</div>
+
+<div id="sidebar-overlay"></div>
+
+<!-- ADMIN APP -->
+<div id="admin-app" class="hidden">
+
+  <!-- SIDEBAR -->
+  <aside id="admin-sidebar">
+    <div class="sidebar-logo">
+      <div>
+        <div class="sidebar-logo-text">PRIME KITS</div>
+        <div class="sidebar-logo-badge">Admin Panel</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Overview</div>
+      <div class="sidebar-link active" data-panel="dashboard">
+        <i class="fa-solid fa-chart-simple"></i> Dashboard
+      </div>
+      <div class="sidebar-section-label">Catalog</div>
+      <div class="sidebar-link" data-panel="products">
+        <i class="fa-solid fa-shirt"></i> Products
+      </div>
+      <div class="sidebar-link" data-panel="categories">
+        <i class="fa-solid fa-layer-group"></i> Categories
+      </div>
+      <div class="sidebar-section-label">Commerce</div>
+      <div class="sidebar-link" data-panel="orders">
+        <i class="fa-solid fa-bag-shopping"></i> Orders
+        <span id="pending-badge" class="badge badge-pending" style="margin-left:auto;display:none"></span>
+      </div>
+      <div class="sidebar-section-label">Site</div>
+      <div class="sidebar-link" data-panel="settings">
+        <i class="fa-solid fa-sliders"></i> Site Settings
+      </div>
+      <div class="sidebar-link" data-panel="contact">
+        <i class="fa-solid fa-address-card"></i> Contact & Social
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="admin-avatar">A</div>
+        <div class="sidebar-user-info">
+          <p id="admin-email-display">admin@primekits.com</p>
+          <span>Administrator</span>
+        </div>
+      </div>
+      <button class="logout-btn btn" id="logout-btn">
+        <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main id="admin-main">
+    <!-- TOPBAR -->
+    <div id="admin-topbar">
+      <div style="display:flex;align-items:center;gap:14px">
+        <button id="hamburger-admin"><i class="fa-solid fa-bars"></i></button>
+        <div class="topbar-title" id="topbar-title">DASHBOARD</div>
+      </div>
+      <div class="topbar-actions">
+        <span class="topbar-badge"><i class="fa-solid fa-circle" style="font-size:0.5rem"></i> Live</span>
+        <a href="../index.html" target="_blank" class="btn btn-outline btn-sm">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> View Store
+        </a>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div id="admin-content">
+
+      <!-- ═══════ DASHBOARD ═══════ -->
+      <div class="admin-panel active" id="panel-dashboard">
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon gold"><i class="fa-solid fa-shirt"></i></div>
+            <div class="stat-value" id="stat-products">—</div>
+            <div class="stat-label">Total Products</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="fa-solid fa-bag-shopping"></i></div>
+            <div class="stat-value" id="stat-orders">—</div>
+            <div class="stat-label">Total Orders</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="fa-solid fa-dollar-sign"></i></div>
+            <div class="stat-value" id="stat-revenue">—</div>
+            <div class="stat-label">Revenue (USD)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon red"><i class="fa-solid fa-clock"></i></div>
+            <div class="stat-value" id="stat-pending">—</div>
+            <div class="stat-label">Pending Orders</div>
+          </div>
+        </div>
+        <div class="panel-header">
+          <div class="panel-title">RECENT <span>ORDERS</span></div>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="recent-orders-tbody">
+              <tr><td colspan="6"><div class="empty-state"><i class="fa-solid fa-clock"></i><p>Loading…</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══════ PRODUCTS ═══════ -->
+      <div class="admin-panel" id="panel-products">
+        <div class="panel-header">
+          <div class="panel-title">PRODUCTS <span>CATALOG</span></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <div class="search-bar">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="product-search" placeholder="Search products…" />
+            </div>
+            <button class="btn btn-gold" id="add-product-btn">
+              <i class="fa-solid fa-plus"></i> ADD PRODUCT
+            </button>
+          </div>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Sizes</th>
+                <th>Flags</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="products-tbody">
+              <tr><td colspan="7"><div class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i><p>Loading products…</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══════ CATEGORIES ═══════ -->
+      <div class="admin-panel" id="panel-categories">
+        <div class="panel-header">
+          <div class="panel-title">SHOP <span>CATEGORIES</span></div>
+          <button class="btn btn-gold" id="add-cat-btn">
+            <i class="fa-solid fa-plus"></i> ADD CATEGORY
+          </button>
+        </div>
+        <div class="cat-admin-grid" id="cats-grid">
+          <div class="empty-state" style="grid-column:1/-1">
+            <i class="fa-solid fa-spinner fa-spin"></i><p>Loading…</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ ORDERS ═══════ -->
+      <div class="admin-panel" id="panel-orders">
+        <div class="panel-header">
+          <div class="panel-title">CUSTOMER <span>ORDERS</span></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <select class="form-input form-select" id="order-filter" style="width:auto;padding:8px 12px;font-size:0.75rem">
+              <option value="all">All Orders</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="shipped">Shipped</option>
+              <option value="delivered">Delivered</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Phone</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="orders-tbody">
+              <tr><td colspan="8"><div class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i><p>Loading…</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══════ SETTINGS ═══════ -->
+      <div class="admin-panel" id="panel-settings">
+        <div class="panel-header">
+          <div class="panel-title">SITE <span>SETTINGS</span></div>
+          <button class="btn btn-gold" id="save-settings-btn">
+            <i class="fa-solid fa-floppy-disk"></i> SAVE CHANGES
+          </button>
+        </div>
+        <div class="settings-tabs">
+          <div class="settings-tab active" data-tab="general">General</div>
+          <div class="settings-tab" data-tab="hero">Hero Section</div>
+          <div class="settings-tab" data-tab="banner">Banner</div>
+          <div class="settings-tab" data-tab="features">Features</div>
+        </div>
+        <div class="settings-pane active" id="tab-general">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Store Name</label>
+              <input class="form-input" id="s-storeName" placeholder="Prime Kits Store" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Announcement Bar Text</label>
+              <input class="form-input" id="s-announcement" placeholder="✦ FREE SHIPPING ON ORDERS OVER $50 ✦" />
+            </div>
+            <div class="form-group form-full">
+              <label class="form-label">Footer Tagline</label>
+              <input class="form-input" id="s-footerTagline" placeholder="Premium streetwear for the bold." />
+            </div>
+          </div>
+        </div>
+        <div class="settings-pane" id="tab-hero">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Hero Title (Line 1)</label>
+              <input class="form-input" id="s-heroTitle" placeholder="PRIME" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hero Eyebrow Text</label>
+              <input class="form-input" id="s-heroEyebrow" placeholder="Est. 2026 · Phnom Penh, Cambodia" />
+            </div>
+            <div class="form-group form-full">
+              <label class="form-label">Hero Subtitle</label>
+              <textarea class="form-input form-textarea" id="s-heroSubtitle" placeholder="Luxury streetwear…" style="min-height:70px"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">CTA Button Text</label>
+              <input class="form-input" id="s-heroCta" placeholder="SHOP NOW" />
+            </div>
+          </div>
+        </div>
+        <div class="settings-pane" id="tab-banner">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Banner Title</label>
+              <input class="form-input" id="s-bannerTitle" placeholder="THE PRIME COLLECTION" />
+            </div>
+            <div class="form-group form-full">
+              <label class="form-label">Banner Subtitle</label>
+              <textarea class="form-input form-textarea" id="s-bannerSubtitle" placeholder="Limited edition drops…" style="min-height:70px"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="settings-pane" id="tab-features">
+          <div class="form-grid cols-1">
+            <div class="form-group">
+              <label class="form-label">Shipping Feature Text</label>
+              <input class="form-input" id="s-featureShipping" placeholder="J&T, Vireak Buntham & more" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Quality Feature Text</label>
+              <input class="form-input" id="s-featureQuality" placeholder="100% premium materials" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Payment Feature Text</label>
+              <input class="form-input" id="s-featurePayment" placeholder="ABA QR — Fast & Safe" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Support Feature Text</label>
+              <input class="form-input" id="s-featureSupport" placeholder="Telegram & direct contact" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ CONTACT & SOCIAL ═══════ -->
+      <div class="admin-panel" id="panel-contact">
+        <div class="panel-header">
+          <div class="panel-title">CONTACT & <span>SOCIAL</span></div>
+          <button class="btn btn-gold" id="save-contact-btn">
+            <i class="fa-solid fa-floppy-disk"></i> SAVE CHANGES
+          </button>
+        </div>
+        <div class="form-grid" style="margin-bottom:24px">
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input class="form-input" id="c-phone" placeholder="+855 12 345 678" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input class="form-input" id="c-email" placeholder="info@primekits.store" />
+          </div>
+          <div class="form-group form-full">
+            <label class="form-label">Address</label>
+            <input class="form-input" id="c-address" placeholder="Phnom Penh, Cambodia" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telegram Username / Link</label>
+            <input class="form-input" id="c-telegram" placeholder="https://t.me/primekits" />
+          </div>
+        </div>
+        <div class="panel-title" style="font-size:1.2rem;margin-bottom:16px">SOCIAL <span style="color:var(--gold)">LINKS</span></div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label"><i class="fa-brands fa-instagram" style="color:var(--gold);margin-right:6px"></i>Instagram URL</label>
+            <input class="form-input" id="s-instagram" placeholder="https://instagram.com/…" />
+          </div>
+          <div class="form-group">
+            <label class="form-label"><i class="fa-brands fa-facebook-f" style="color:var(--gold);margin-right:6px"></i>Facebook URL</label>
+            <input class="form-input" id="s-facebook" placeholder="https://facebook.com/…" />
+          </div>
+          <div class="form-group">
+            <label class="form-label"><i class="fa-brands fa-tiktok" style="color:var(--gold);margin-right:6px"></i>TikTok URL</label>
+            <input class="form-input" id="s-tiktok" placeholder="https://tiktok.com/@…" />
+          </div>
+          <div class="form-group">
+            <label class="form-label"><i class="fa-brands fa-telegram" style="color:var(--gold);margin-right:6px"></i>Telegram URL</label>
+            <input class="form-input" id="s-telegram" placeholder="https://t.me/…" />
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /admin-content -->
+  </main>
+</div><!-- /admin-app -->
+
+<!-- ═══ PRODUCT MODAL ═══ -->
+<div class="modal-backdrop" id="product-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="product-modal-title">ADD <span>PRODUCT</span></h3>
+      <button class="modal-close-btn" data-close="product-modal"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="pm-id" />
+      <div class="form-grid" style="margin-bottom:16px">
+        <div class="form-group">
+          <label class="form-label">Product Name *</label>
+          <input class="form-input" id="pm-name" placeholder="e.g. Barcelona 2024 Home Jersey" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category *</label>
+          <select class="form-input form-select" id="pm-category">
+            <option value="">Select category…</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Price (USD) *</label>
+          <input class="form-input" id="pm-price" type="number" step="0.01" min="0" placeholder="29.99" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Original Price (for SALE badge)</label>
+          <input class="form-input" id="pm-originalPrice" type="number" step="0.01" min="0" placeholder="39.99" />
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Description</label>
+          <textarea class="form-input form-textarea" id="pm-description" placeholder="Describe this product…"></textarea>
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Available Sizes</label>
+          <div class="size-chips" id="pm-sizes">
+            <div class="size-chip" data-size="XS">XS</div>
+            <div class="size-chip" data-size="S">S</div>
+            <div class="size-chip" data-size="M">M</div>
+            <div class="size-chip" data-size="L">L</div>
+            <div class="size-chip" data-size="XL">XL</div>
+            <div class="size-chip" data-size="XXL">XXL</div>
+            <div class="size-chip" data-size="3XL">3XL</div>
+          </div>
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Product Images</label>
+          <div class="upload-zone" id="pm-upload-zone">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <p>Drag & drop images here or <span>browse files</span></p>
+            <p style="margin-top:4px;font-size:0.65rem">JPG, PNG, WEBP — multiple allowed</p>
+          </div>
+          <input type="file" id="pm-file-input" accept="image/*" multiple style="display:none" />
+          <div class="upload-previews" id="pm-previews"></div>
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label" style="margin-bottom:10px">Product Flags</label>
+          <div style="display:flex;flex-wrap:wrap;gap:20px">
+            <label class="toggle-wrap">
+              <label class="toggle"><input type="checkbox" id="pm-featured" /><span class="toggle-slider"></span></label>
+              <span style="font-size:0.78rem">Featured</span>
+            </label>
+            <label class="toggle-wrap">
+              <label class="toggle"><input type="checkbox" id="pm-isNew" /><span class="toggle-slider"></span></label>
+              <span style="font-size:0.78rem">New Arrival</span>
+            </label>
+            <label class="toggle-wrap">
+              <label class="toggle"><input type="checkbox" id="pm-isSale" /><span class="toggle-slider"></span></label>
+              <span style="font-size:0.78rem">On Sale</span>
+            </label>
+            <label class="toggle-wrap">
+              <label class="toggle"><input type="checkbox" id="pm-isSoldOut" /><span class="toggle-slider"></span></label>
+              <span style="font-size:0.78rem">Sold Out</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" data-close="product-modal">Cancel</button>
+      <button class="btn btn-gold" id="pm-save-btn">
+        <i class="fa-solid fa-floppy-disk"></i> SAVE PRODUCT
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CATEGORY MODAL ═══ -->
+<div class="modal-backdrop" id="cat-modal">
+  <div class="modal-box" style="max-width:480px">
+    <div class="modal-header">
+      <h3 id="cat-modal-title">ADD <span>CATEGORY</span></h3>
+      <button class="modal-close-btn" data-close="cat-modal"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="cm-id" />
+      <div class="form-grid cols-1">
+        <div class="form-group">
+          <label class="form-label">Category Name *</label>
+          <input class="form-input" id="cm-name" placeholder="e.g. Football Jerseys" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Display Order</label>
+          <input class="form-input" id="cm-order" type="number" min="0" placeholder="0" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category Image</label>
+          <div class="upload-zone" id="cm-upload-zone">
+            <i class="fa-solid fa-image"></i>
+            <p>Click to upload category image</p>
+          </div>
+          <input type="file" id="cm-file-input" accept="image/*" style="display:none" />
+          <div id="cm-preview" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" data-close="cat-modal">Cancel</button>
+      <button class="btn btn-gold" id="cm-save-btn">
+        <i class="fa-solid fa-floppy-disk"></i> SAVE CATEGORY
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ORDER DETAIL MODAL ═══ -->
+<div class="modal-backdrop" id="order-modal">
+  <div class="modal-box" style="max-width:780px">
+    <div class="modal-header">
+      <h3>ORDER <span id="order-modal-id">DETAIL</span></h3>
+      <button class="modal-close-btn" data-close="order-modal"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body" id="order-modal-body">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" data-close="order-modal">Close</button>
+      <select class="status-select" id="order-status-select">
+        <option value="pending">Pending</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="shipped">Shipped</option>
+        <option value="delivered">Delivered</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+      <button class="btn btn-gold" id="update-order-status-btn">
+        <i class="fa-solid fa-check"></i> UPDATE STATUS
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="admin-toast"></div>
+
+<!-- FIREBASE & ADMIN JS -->
+<script type="module" src="../js/firebase-config.js"></script>
+<script type="module" src="../js/admin.js"></script>
+
+</body>
+</html>

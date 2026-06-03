@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — Prime Kits Store</title>
+  <link rel="icon" type="image/png" href="../assets/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="../main.css" />
+  <style>
+    .checkout-page { padding: 120px 24px 80px; min-height: 100svh; }
+    .checkout-inner { max-width: 1160px; margin: 0 auto; }
+    .checkout-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem,6vw,4rem);
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .checkout-subtitle { font-size: 0.82rem; color: var(--white-dim); margin-bottom: 48px; }
+    .checkout-steps {
+      display: flex; align-items: center; gap: 0;
+      margin-bottom: 48px; border: 1px solid var(--black-line);
+    }
+    .step {
+      flex: 1; padding: 16px 20px;
+      display: flex; align-items: center; gap: 12px;
+      font-size: 0.72rem; letter-spacing: 0.12em; font-weight: 600;
+      color: var(--white-dim); border-right: 1px solid var(--black-line);
+      transition: all 0.3s ease;
+    }
+    .step:last-child { border-right: none; }
+    .step.active { color: var(--gold); background: rgba(201,168,76,0.06); }
+    .step.done { color: var(--white-dim); }
+    .step-num {
+      width: 28px; height: 28px;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.68rem; flex-shrink: 0;
+    }
+    .step.done .step-num { background: var(--gold); border-color: var(--gold); color: var(--black); }
+
+    .checkout-layout { display: grid; grid-template-columns: 1fr 420px; gap: 40px; }
+
+    /* Form Sections */
+    .form-section {
+      background: var(--black-card);
+      border: 1px solid var(--black-line);
+      padding: 32px; margin-bottom: 24px;
+    }
+    .form-section-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem; letter-spacing: 0.2em;
+      color: var(--gold); margin-bottom: 24px;
+      padding-bottom: 16px; border-bottom: 1px solid var(--black-line);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .form-section-title i { font-size: 0.9rem; }
+
+    /* Shipping Options */
+    .shipping-options-list { display: flex; flex-direction: column; gap: 12px; }
+    .shipping-opt {
+      display: flex; align-items: center; gap: 16px;
+      padding: 16px 20px; border: 1px solid var(--black-line);
+      cursor: pointer; transition: all 0.25s ease;
+    }
+    .shipping-opt:hover { border-color: rgba(201,168,76,0.4); }
+    .shipping-opt.selected { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+    .shipping-opt input[type=radio] { accent-color: var(--gold); flex-shrink: 0; }
+    .shipping-opt-logo {
+      width: 48px; height: 48px; object-fit: contain;
+      background: var(--black-alt); border: 1px solid var(--black-line);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .shipping-opt-body { flex: 1; }
+    .shipping-opt-name { font-size: 0.88rem; font-weight: 600; margin-bottom: 2px; }
+    .shipping-opt-time { font-size: 0.72rem; color: var(--white-dim); }
+    .shipping-opt-price { font-size: 1rem; color: var(--gold); font-weight: 700; }
+    .shipping-loading { color: var(--white-dim); font-size: 0.82rem; padding: 16px 0; }
+
+    /* Order Summary */
+    .order-summary { position: sticky; top: 100px; }
+    .summary-box {
+      background: var(--black-card);
+      border: 1px solid var(--black-line);
+      padding: 32px;
+    }
+    .summary-header {
+      font-family: var(--font-display);
+      font-size: 1.1rem; letter-spacing: 0.2em;
+      color: var(--gold); margin-bottom: 24px;
+      padding-bottom: 16px; border-bottom: 1px solid var(--black-line);
+    }
+    .summary-items { margin-bottom: 24px; }
+    .summary-row {
+      display: flex; justify-content: space-between;
+      align-items: center; padding: 8px 0;
+      font-size: 0.82rem; color: var(--white-dim);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .summary-row.total {
+      font-size: 1rem; font-weight: 700;
+      color: var(--white); border-bottom: none;
+      padding-top: 16px; margin-top: 8px;
+      border-top: 1px solid var(--black-line);
+    }
+    .summary-row.total span:last-child { color: var(--gold); font-size: 1.2rem; }
+    .summary-cart-item {
+      display: flex; gap: 12px; align-items: center;
+      padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .summary-cart-img {
+      width: 56px; height: 56px; object-fit: cover;
+      background: var(--black-alt); flex-shrink: 0;
+    }
+    .summary-cart-info { flex: 1; }
+    .summary-cart-name { font-size: 0.8rem; font-weight: 600; margin-bottom: 2px; }
+    .summary-cart-meta { font-size: 0.7rem; color: var(--white-dim); }
+    .summary-cart-price { font-size: 0.88rem; color: var(--gold); font-weight: 600; }
+
+    /* QR Payment */
+    #payment-step {
+      display: none;
+      text-align: center;
+    }
+    #payment-step.active { display: block; }
+    .qr-wrap {
+      background: #fff;
+      padding: 20px; display: inline-block;
+      margin: 24px auto;
+    }
+    .qr-wrap img { width: 220px; height: 220px; object-fit: contain; display: block; }
+    .payment-amount-display {
+      font-family: var(--font-display);
+      font-size: 2.5rem; letter-spacing: 0.1em; color: var(--gold);
+      margin: 16px 0;
+    }
+    .payment-steps-list {
+      text-align: left; margin: 24px 0;
+      font-size: 0.82rem; color: var(--white-dim);
+    }
+    .payment-steps-list li {
+      padding: 8px 0; display: flex; gap: 10px; align-items: flex-start;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .payment-steps-list li span { color: var(--gold); font-weight: 700; flex-shrink: 0; }
+    .payment-done-btn {
+      width: 100%; padding: 18px;
+      background: var(--gold); color: var(--black);
+      font-family: var(--font-display);
+      font-size: 1rem; letter-spacing: 0.2em;
+      border: none; cursor: pointer; transition: all 0.3s ease;
+      margin-top: 16px;
+    }
+    .payment-done-btn:hover { background: var(--gold-light); }
+    .payment-done-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .payment-note {
+      font-size: 0.72rem; color: var(--white-dim);
+      margin-top: 12px; line-height: 1.6;
+    }
+
+    /* Order Confirmed */
+    #confirmed-step { display: none; text-align: center; padding: 40px; }
+    #confirmed-step.active { display: block; }
+    .confirmed-icon { font-size: 4rem; color: var(--gold); margin-bottom: 24px; }
+    .confirmed-title {
+      font-family: var(--font-display);
+      font-size: 2.5rem; letter-spacing: 0.15em; margin-bottom: 12px;
+    }
+    .confirmed-id {
+      font-size: 0.72rem; color: var(--white-dim); letter-spacing: 0.2em;
+      margin-bottom: 32px;
+    }
+    .confirmed-id span { color: var(--gold); }
+
+    /* Submit Button */
+    .submit-btn {
+      width: 100%; padding: 18px;
+      background: var(--gold); color: var(--black);
+      font-family: var(--font-display);
+      font-size: 1rem; letter-spacing: 0.2em;
+      border: none; cursor: pointer;
+      transition: all 0.3s ease; margin-top: 8px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .submit-btn:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    @media (max-width: 960px) {
+      .checkout-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; }
+    }
+    @media (max-width: 600px) {
+      .checkout-steps { overflow-x: auto; }
+      .step { min-width: 120px; }
+      .checkout-page { padding: 100px 16px 60px; }
+      .form-section { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PAGE LOADER -->
+<div id="page-loader">
+  <div class="loader-logo">PRIME KITS</div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- ANNOUNCEMENT BAR -->
+<div id="announcement-bar">✦ FREE SHIPPING ON ORDERS OVER $50 · AUTHENTIC PREMIUM JERSEYS ✦</div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">
+      <img src="../assets/logo.png" alt="Prime Kits" id="nav-logo-img" />
+      <span>PRIME KITS</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="categories.html">Categories</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="nav-cart-btn" id="cart-toggle" aria-label="Cart">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="cart-count hidden" id="cart-count">0</span>
+      </button>
+      <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu">
+  <ul class="mobile-nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="categories.html">Categories</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</div>
+
+<!-- CART OVERLAY -->
+<div id="cart-overlay"></div>
+<aside id="cart-sidebar">
+  <div class="cart-header">
+    <h3>YOUR BAG</h3>
+    <button class="cart-close" id="cart-close"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none;">
+    <div class="cart-subtotal">
+      <span>Subtotal</span>
+      <span id="cart-total">$0.00</span>
+    </div>
+    <a href="checkout.html" class="checkout-btn">PROCEED TO CHECKOUT</a>
+  </div>
+</aside>
+
+<!-- TOAST -->
+<div id="toast-container"></div>
+
+<!-- MAIN -->
+<main class="checkout-page">
+  <div class="checkout-inner">
+
+    <h1 class="checkout-title">CHECKOUT</h1>
+    <p class="checkout-subtitle">Secure checkout — ABA QR payment</p>
+
+    <!-- Steps Indicator -->
+    <div class="checkout-steps" id="checkout-steps">
+      <div class="step active" id="step-1">
+        <div class="step-num">1</div>
+        <span>YOUR INFO</span>
+      </div>
+      <div class="step" id="step-2">
+        <div class="step-num">2</div>
+        <span>SHIPPING</span>
+      </div>
+      <div class="step" id="step-3">
+        <div class="step-num">3</div>
+        <span>PAYMENT</span>
+      </div>
+      <div class="step" id="step-4">
+        <div class="step-num">4</div>
+        <span>CONFIRMED</span>
+      </div>
+    </div>
+
+    <!-- Info + Shipping Form (Steps 1–2) -->
+    <div id="form-steps" class="checkout-layout">
+      <div class="checkout-form">
+
+        <!-- Step 1: Customer Info -->
+        <div class="form-section" id="customer-info-section">
+          <div class="form-section-title">
+            <i class="fa-solid fa-user"></i> CUSTOMER INFORMATION
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Full Name *</label>
+              <input type="text" class="form-input" id="cust-name" placeholder="e.g. Dara Sok" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number *</label>
+              <input type="tel" class="form-input" id="cust-phone" placeholder="012 345 678" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telegram Username</label>
+            <input type="text" class="form-input" id="cust-telegram" placeholder="@yourusername (optional)" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Delivery Address *</label>
+            <textarea class="form-textarea" id="cust-address" placeholder="Street, Khan, City..." rows="3" required></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Province / City *</label>
+              <select class="form-select" id="cust-city">
+                <option value="">Select Province</option>
+                <option>Phnom Penh</option>
+                <option>Siem Reap</option>
+                <option>Sihanoukville</option>
+                <option>Battambang</option>
+                <option>Kampong Cham</option>
+                <option>Kampong Thom</option>
+                <option>Kampot</option>
+                <option>Kandal</option>
+                <option>Koh Kong</option>
+                <option>Kratie</option>
+                <option>Mondulkiri</option>
+                <option>Prey Veng</option>
+                <option>Pursat</option>
+                <option>Ratanakiri</option>
+                <option>Svay Rieng</option>
+                <option>Takéo</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Order Notes</label>
+              <input type="text" class="form-input" id="cust-notes" placeholder="Any special instructions..." />
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Shipping -->
+        <div class="form-section" id="shipping-section">
+          <div class="form-section-title">
+            <i class="fa-solid fa-truck"></i> SHIPPING METHOD
+          </div>
+          <div class="shipping-options-list" id="shipping-options">
+            <p class="shipping-loading"><i class="fa-solid fa-spinner fa-spin" style="color:var(--gold);margin-right:8px;"></i> Loading shipping options…</p>
+          </div>
+        </div>
+
+        <!-- Place Order Button -->
+        <button class="submit-btn" id="place-order-btn">
+          <i class="fa-solid fa-lock"></i> PROCEED TO PAYMENT
+        </button>
+        <p style="font-size:0.72rem;color:var(--white-dim);margin-top:12px;text-align:center;">
+          <i class="fa-solid fa-shield-halved" style="color:var(--gold);margin-right:6px;"></i>
+          Your information is safe and secure
+        </p>
+
+      </div>
+
+      <!-- Order Summary Sidebar -->
+      <div class="order-summary">
+        <div class="summary-box">
+          <div class="summary-header">ORDER SUMMARY</div>
+          <div class="summary-items" id="summary-items">
+            <!-- Populated by JS -->
+          </div>
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="summary-subtotal">$0.00</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span id="summary-shipping">—</span>
+          </div>
+          <div class="summary-row total">
+            <span>TOTAL</span>
+            <span id="summary-total">$0.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Payment (ABA QR) -->
+    <div id="payment-step">
+      <div style="max-width:560px;margin:0 auto;">
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="fa-solid fa-qrcode"></i> ABA PAYMENT
+          </div>
+          <div style="text-align:center;">
+            <p style="font-size:0.82rem;color:var(--white-dim);margin-bottom:8px;">Scan QR code with ABA Mobile app to pay</p>
+            <div class="qr-wrap">
+              <img id="aba-qr-img" src="" alt="ABA QR Code" onerror="this.parentElement.innerHTML='<div style=\'padding:20px;color:#c9a84c;font-size:0.8rem;\'>QR code not configured.<br>Contact admin.</div>'" />
+            </div>
+            <div class="payment-amount-display" id="payment-amount-display">$0.00</div>
+            <p style="font-size:0.72rem;color:var(--white-dim);">Order #<span id="payment-order-id" style="color:var(--gold);"></span></p>
+          </div>
+          <ol class="payment-steps-list">
+            <li><span>1.</span> Open ABA Mobile or any banking app</li>
+            <li><span>2.</span> Select "Scan QR" and scan the code above</li>
+            <li><span>3.</span> Enter the exact amount shown</li>
+            <li><span>4.</span> Confirm payment and click the button below</li>
+          </ol>
+          <button class="payment-done-btn" id="payment-confirm-btn">
+            <i class="fa-solid fa-check-circle" style="margin-right:8px;"></i> I HAVE COMPLETED PAYMENT
+          </button>
+          <p class="payment-note">
+            Once you click this button, your order will be confirmed and our team will be notified via Telegram. 
+            We will verify and ship within 1–2 business days.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Order Confirmed -->
+    <div id="confirmed-step">
+      <div class="form-section" style="max-width:560px;margin:0 auto;text-align:center;padding:60px 40px;">
+        <div class="confirmed-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <h2 class="confirmed-title">ORDER CONFIRMED!</h2>
+        <p class="confirmed-id">Order ID: <span id="confirmed-order-id"></span></p>
+        <p style="font-size:0.85rem;color:var(--white-dim);line-height:1.8;margin-bottom:32px;">
+          Thank you for your order! We've received your payment confirmation.<br>
+          Our team will process and ship your order within 1–2 business days.<br>
+          We'll contact you via phone or Telegram with tracking info.
+        </p>
+        <a href="shop.html" class="btn-primary" style="display:inline-flex;">
+          <i class="fa-solid fa-arrow-right"></i> CONTINUE SHOPPING
+        </a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-bottom" style="border-top:1px solid var(--black-line);padding-top:24px;display:flex;justify-content:space-between;">
+      <p>© <span id="footer-year"></span> Prime Kits Store. All rights reserved.</p>
+      <p>Made with <span style="color:var(--gold);">✦</span> in Cambodia</p>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="../js/firebase-config.js"></script>
+<script type="module" src="../js/store.js"></script>
+<script type="module" src="../js/cart.js"></script>
+<script type="module" src="../js/ui.js"></script>
+<script type="module" src="../js/checkout.js"></script>
+</body>
+</html>
