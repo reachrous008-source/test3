@@ -3,342 +3,770 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prime Kits Store — Premium Streetwear</title>
-  <meta name="description" content="Premium streetwear & jerseys. Luxury quality, street-ready style." />
-  <link rel="icon" type="image/png" href="assets/logo.png" />
-
-  <!-- Fonts & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-  <link rel="stylesheet" href="main.css" />
+  <meta name="description" content="Prime Kits Premium — Luxury Football Jerseys. Club, National & Retro kits curated for real fans." />
+  <meta name="keywords" content="football jerseys, premium kits, football shirts, club jerseys, national kits, retro football" />
+  <title>PRIME KITS — Premium Football Jerseys</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:wght@300;400;600&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- PAGE LOADER -->
-  <div id="page-loader">
-    <div class="loader-logo">PRIME KITS</div>
-    <div class="loader-bar"></div>
+  <!-- LOADING SCREEN -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loader-inner">
+      <div class="loader-crown">♛</div>
+      <div class="loader-text">PRIME KITS</div>
+      <div class="loader-bar"><div class="loader-fill" id="loaderFill"></div></div>
+    </div>
   </div>
 
-  <!-- ANNOUNCEMENT BAR -->
-  <div id="announcement-bar" data-cms="announcement">
-    ✦ FREE SHIPPING ON ORDERS OVER $50 · AUTHENTIC PREMIUM JERSEYS ✦
-  </div>
-
-  <!-- NAVIGATION -->
-  <nav id="main-nav">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <img src="assets/logo.png" alt="Prime Kits" id="nav-logo-img" />
-        <span data-cms="store-name">PRIME KITS</span>
+  <!-- HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <a href="#" class="logo">
+        <span class="logo-crown">♛</span>
+        <div class="logo-text">
+          <span class="logo-main">PRIME KITS</span>
+          <span class="logo-sub">PREMIUM</span>
+        </div>
       </a>
-      <ul class="nav-links" id="desktop-nav">
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="pages/shop.html">Shop</a></li>
-        <li><a href="pages/categories.html">Categories</a></li>
-        <li><a href="pages/contact.html">Contact</a></li>
-      </ul>
-      <div class="nav-actions">
-        <button class="nav-search-btn" id="search-toggle" aria-label="Search">
-          <i class="fa-solid fa-magnifying-glass"></i>
+
+      <nav class="nav-links">
+        <a href="#shop" class="nav-link">Shop</a>
+        <a href="#featured" class="nav-link">Featured</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <button class="admin-toggle-btn" id="adminToggle">⚙ Admin</button>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-btn" id="searchToggle" title="Search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         </button>
-        <button class="nav-cart-btn" id="cart-toggle" aria-label="Cart">
-          <i class="fa-solid fa-bag-shopping"></i>
-          <span class="cart-count hidden" id="cart-count">0</span>
+        <button class="icon-btn" id="wishlistBtn" title="Wishlist">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="badge-dot" id="wishlistCount" style="display:none">0</span>
         </button>
-        <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+        <button class="icon-btn cart-btn" id="cartBtn" title="Cart">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-count" id="cartCount" style="display:none">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
       </div>
     </div>
+
+    <!-- SEARCH BAR EXPANDED -->
+    <div class="search-expanded" id="searchExpanded">
+      <div class="search-inner">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="searchBar" placeholder="Search jerseys, clubs, nations…" autocomplete="off" />
+        <button onclick="closeSearch()" class="search-close">✕</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="#shop" onclick="closeMobileNav()">Shop</a>
+    <a href="#featured" onclick="closeMobileNav()">Featured</a>
+    <a href="#about" onclick="closeMobileNav()">About</a>
+    <a href="#contact" onclick="closeMobileNav()">Contact</a>
+    <div class="mobile-nav-divider"></div>
+    <a href="#faq" onclick="closeMobileNav()">FAQ</a>
+    <a href="#shipping" onclick="closeMobileNav()">Shipping</a>
+    <a href="#returns" onclick="closeMobileNav()">Returns</a>
+    <button class="admin-toggle-btn" onclick="toggleAdmin(); closeMobileNav()">⚙ Admin Panel</button>
   </nav>
 
-  <!-- MOBILE MENU -->
-  <div id="mobile-menu">
-    <ul class="mobile-nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="pages/shop.html">Shop</a></li>
-      <li><a href="pages/categories.html">Categories</a></li>
-      <li><a href="pages/contact.html">Contact</a></li>
-    </ul>
-    <div class="mobile-social" id="mobile-social-links"></div>
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-overlay"></div>
+    <div class="hero-grid-bg"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-line"></span>
+        <span>EST. 2026 · FOOTBALL CULTURE · PHNOM PENH</span>
+        <span class="eyebrow-line"></span>
+      </div>
+      <h1 class="hero-title">
+        <span class="hero-title-line" data-aos>WEAR</span>
+        <span class="hero-title-line accent" data-aos data-delay="0.1">THE</span>
+        <span class="hero-title-line" data-aos data-delay="0.2">GAME</span>
+      </h1>
+      <p class="hero-desc" data-aos data-delay="0.3">Premium football jerseys for champions. Club, national, and retro kits — curated for the real fans who live and breathe the beautiful game.</p>
+      <div class="hero-ctas" data-aos data-delay="0.4">
+        <a href="#shop" class="btn-gold">SHOP COLLECTION →</a>
+        <a href="#featured" class="btn-ghost">VIEW FEATURED</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="hs-num">500+</span><span class="hs-lbl">Jerseys Sold</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="hs-num">50+</span><span class="hs-lbl">Clubs & Nations</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="hs-num">100%</span><span class="hs-lbl">Satisfaction</span></div>
+      </div>
+    </div>
+    <div class="hero-badge">
+      <svg class="badge-ring-svg" viewBox="0 0 120 120">
+        <path id="badgePath" d="M60,10 a50,50 0 1,1 -0.01,0"/>
+        <text><textPath href="#badgePath" startOffset="0">PRIME KITS · PREMIUM · EST 2026 · FOOTBALL · </textPath></text>
+      </svg>
+      <span class="badge-crown">♛</span>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>SCROLL</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-track" id="tickerTrack">
+      <span>FREE DELIVERY ON ORDERS OVER $50</span><span class="tick-star">✦</span>
+      <span>AUTHENTIC QUALITY GUARANTEED</span><span class="tick-star">✦</span>
+      <span>CLUB · NATIONAL · RETRO KITS</span><span class="tick-star">✦</span>
+      <span>NEW ARRIVALS EVERY WEEK</span><span class="tick-star">✦</span>
+      <span>ABA & ACLEDA PAYMENT ACCEPTED</span><span class="tick-star">✦</span>
+      <span>FREE DELIVERY ON ORDERS OVER $50</span><span class="tick-star">✦</span>
+      <span>AUTHENTIC QUALITY GUARANTEED</span><span class="tick-star">✦</span>
+      <span>CLUB · NATIONAL · RETRO KITS</span><span class="tick-star">✦</span>
+      <span>NEW ARRIVALS EVERY WEEK</span><span class="tick-star">✦</span>
+      <span>ABA & ACLEDA PAYMENT ACCEPTED</span><span class="tick-star">✦</span>
+    </div>
   </div>
 
-  <!-- SEARCH OVERLAY -->
-  <div id="search-overlay">
-    <div class="search-inner">
-      <div class="search-input-wrap">
-        <i class="fa-solid fa-magnifying-glass" style="color:var(--gold);font-size:1.2rem;"></i>
-        <input type="text" id="search-input" placeholder="Search jerseys, kits…" autocomplete="off" />
-        <button class="search-close" id="search-close"><i class="fa-solid fa-xmark"></i></button>
+  <!-- FEATURED SECTION -->
+  <section class="featured-section" id="featured">
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="section-eyebrow">HAND-PICKED</p>
+        <h2 class="section-title">FEATURED <span class="gold-text">KITS</span></h2>
+        <p class="section-sub">Our top-selling jerseys this season</p>
       </div>
-      <div class="search-results" id="search-results"></div>
-    </div>
-  </div>
-
-  <!-- CART OVERLAY -->
-  <div id="cart-overlay"></div>
-
-  <!-- CART SIDEBAR -->
-  <aside id="cart-sidebar">
-    <div class="cart-header">
-      <h3>YOUR BAG</h3>
-      <button class="cart-close" id="cart-close"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <div class="cart-items" id="cart-items">
-      <div class="cart-empty">
-        <div class="cart-empty-icon"><i class="fa-solid fa-bag-shopping"></i></div>
-        <p>Your bag is empty</p>
-        <a href="pages/shop.html" class="btn-primary" style="font-size:0.7rem;padding:10px 24px;">SHOP NOW</a>
+      <div class="featured-grid" id="featuredGrid">
+        <!-- Rendered by JS -->
       </div>
     </div>
-    <div class="cart-footer" id="cart-footer" style="display:none;">
-      <div class="cart-subtotal">
-        <span>Subtotal</span>
-        <span id="cart-total">$0.00</span>
-      </div>
-      <a href="pages/checkout.html" class="checkout-btn">PROCEED TO CHECKOUT</a>
-    </div>
-  </aside>
+  </section>
 
-  <!-- PRODUCT MODAL -->
-  <div id="product-modal" class="modal-overlay">
-    <div class="modal-box">
-      <button class="modal-close" id="modal-close"><i class="fa-solid fa-xmark"></i></button>
-      <div class="modal-grid">
-        <div class="modal-images">
-          <div class="modal-main-img-wrap">
-            <img id="modal-main-img" src="" alt="" />
-          </div>
-          <div class="modal-thumbs" id="modal-thumbs"></div>
+  <!-- CATEGORIES STRIP -->
+  <section class="categories-strip">
+    <div class="cat-card" onclick="filterByCategory('club')">
+      <div class="cat-icon">🏆</div>
+      <h3>Club Kits</h3>
+      <p>All your favourite clubs</p>
+      <span class="cat-arrow">→</span>
+    </div>
+    <div class="cat-card" onclick="filterByCategory('national')">
+      <div class="cat-icon">🌍</div>
+      <h3>National Teams</h3>
+      <p>Represent your nation</p>
+      <span class="cat-arrow">→</span>
+    </div>
+    <div class="cat-card" onclick="filterByCategory('retro')">
+      <div class="cat-icon">🕰️</div>
+      <h3>Retro Classics</h3>
+      <p>Iconic vintage designs</p>
+      <span class="cat-arrow">→</span>
+    </div>
+    <div class="cat-card" onclick="filterByCategory('streetwear')">
+      <div class="cat-icon">👟</div>
+      <h3>Streetwear</h3>
+      <p>Football culture lifestyle</p>
+      <span class="cat-arrow">→</span>
+    </div>
+  </section>
+
+  <!-- MAIN SHOP SECTION -->
+  <section class="shop-section" id="shop">
+    <div class="section-inner">
+      <div class="shop-header-row">
+        <div class="section-header left-align">
+          <p class="section-eyebrow">BROWSE ALL</p>
+          <h2 class="section-title">THE <span class="gold-text">COLLECTION</span></h2>
         </div>
-        <div class="modal-info">
-          <div class="modal-badge-wrap" id="modal-badge-wrap"></div>
-          <p class="modal-category" id="modal-category"></p>
-          <h2 class="modal-title" id="modal-title"></h2>
-          <div class="modal-price-row">
-            <span class="modal-price" id="modal-price"></span>
-            <span class="modal-old-price" id="modal-old-price"></span>
+        <div class="shop-controls">
+          <div class="filter-tabs" id="filterTabs">
+            <button class="filter-tab active" data-cat="all">ALL</button>
+            <button class="filter-tab" data-cat="club">CLUB</button>
+            <button class="filter-tab" data-cat="national">NATIONAL</button>
+            <button class="filter-tab" data-cat="retro">RETRO</button>
+            <button class="filter-tab" data-cat="streetwear">STREETWEAR</button>
           </div>
-          <p class="modal-desc" id="modal-desc"></p>
-          <div class="modal-sizes" id="modal-sizes-wrap">
-            <h4>SELECT SIZE</h4>
-            <div class="size-grid" id="modal-size-grid"></div>
+          <div class="sort-wrap">
+            <select id="sortSelect">
+              <option value="default">Sort: Default</option>
+              <option value="price-asc">Price: Low → High</option>
+              <option value="price-desc">Price: High → Low</option>
+              <option value="name">Name A–Z</option>
+              <option value="newest">Newest</option>
+            </select>
           </div>
-          <div class="modal-qty">
-            <label>QTY</label>
-            <div class="qty-control">
-              <button id="qty-minus">−</button>
-              <input type="number" id="qty-input" value="1" min="1" max="99" />
-              <button id="qty-plus">+</button>
+        </div>
+      </div>
+
+      <div class="product-grid" id="productGrid">
+        <!-- Products rendered by JS -->
+      </div>
+      <p class="empty-shop" id="emptyShop" style="display:none">No jerseys found. Try a different search or add some via Admin.</p>
+    </div>
+  </section>
+
+  <!-- BEST SELLERS SECTION -->
+  <section class="bestsellers-section" id="bestsellers">
+    <div class="bs-bg"></div>
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="section-eyebrow">MOST POPULAR</p>
+        <h2 class="section-title">BEST <span class="gold-text">SELLERS</span></h2>
+      </div>
+      <div class="featured-grid" id="bestSellersGrid"></div>
+    </div>
+  </section>
+
+  <!-- NEW ARRIVALS -->
+  <section class="new-arrivals-section" id="newArrivals">
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="section-eyebrow">JUST LANDED</p>
+        <h2 class="section-title">NEW <span class="gold-text">ARRIVALS</span></h2>
+      </div>
+      <div class="featured-grid" id="newArrivalsGrid"></div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section class="why-section">
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="section-eyebrow">OUR PROMISE</p>
+        <h2 class="section-title">WHY CHOOSE <span class="gold-text">PRIME KITS</span></h2>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon">🏅</div>
+          <h3>Authentic Quality</h3>
+          <p>Every jersey is carefully verified for quality, material, and accuracy before it reaches you.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🚀</div>
+          <h3>Fast Delivery</h3>
+          <p>Same-day dispatch on orders before 2PM. Free delivery on orders over $50.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">💳</div>
+          <h3>Easy Payments</h3>
+          <p>Pay with ABA Bank, ACLEDA Bank, or Visa Card. Secure QR code payment options.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🔄</div>
+          <h3>Easy Returns</h3>
+          <p>Not satisfied? Return within 14 days for a full refund, no questions asked.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="about-section" id="about">
+    <div class="about-inner">
+      <div class="about-img-col">
+        <div class="about-img-frame">
+          <div class="about-img-badge">EST. 2026</div>
+          <div class="about-pattern"></div>
+        </div>
+      </div>
+      <div class="about-text-col">
+        <p class="section-eyebrow">OUR STORY</p>
+        <h2 class="section-title">BUILT FOR<br /><span class="gold-text">FOOTBALL LOVERS</span></h2>
+        <p class="about-para">Prime Kits Premium was founded in 2026 with one mission: bring authentic, high-quality football jerseys to fans who live and breathe the game. From iconic club kits to national team classics and rare retro finds — we stock what matters.</p>
+        <p class="about-para">Based in Phnom Penh, we serve football fans across Cambodia and beyond. Every jersey is verified for quality, shipped with care, and priced for real fans.</p>
+        <div class="about-stats">
+          <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Jerseys Sold</span></div>
+          <div class="stat"><span class="stat-num">50+</span><span class="stat-label">Clubs & Nations</span></div>
+          <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Satisfaction</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section class="contact-section" id="contact">
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="section-eyebrow">GET IN TOUCH</p>
+        <h2 class="section-title">CONTACT <span class="gold-text">US</span></h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-item">
+            <span class="contact-icon">📍</span>
+            <div>
+              <h4>Location</h4>
+              <p>Phnom Penh, Cambodia</p>
             </div>
           </div>
-          <button class="modal-add-btn" id="modal-add-btn">
-            <i class="fa-solid fa-bag-shopping"></i> ADD TO BAG
-          </button>
+          <div class="contact-item">
+            <span class="contact-icon">📱</span>
+            <div>
+              <h4>Telegram / WhatsApp</h4>
+              <p>Message us for fastest response</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">🕒</span>
+            <div>
+              <h4>Business Hours</h4>
+              <p>Mon–Sat: 9AM – 8PM</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">💳</span>
+            <div>
+              <h4>Payment Methods</h4>
+              <p>ABA Bank · ACLEDA · Visa Card</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOAST CONTAINER -->
-  <div id="toast-container"></div>
-
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <!--  MAIN CONTENT                                          -->
-  <!-- ═══════════════════════════════════════════════════════ -->
-
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-grid-lines"></div>
-    <div class="hero-content">
-      <div class="hero-eyebrow" data-cms="hero-eyebrow">Est. 2026 · Phnom Penh, Cambodia</div>
-      <h1 class="hero-title">
-        <span data-cms="hero-title-line1">PRIME</span><br>
-        KITS
-      </h1>
-      <p class="hero-sub" data-cms="hero-subtitle">
-        Luxury streetwear & premium jerseys, crafted for those who move differently.
-      </p>
-      <div class="hero-cta">
-        <a href="pages/shop.html" class="btn-primary">
-          <i class="fa-solid fa-arrow-right"></i> SHOP NOW
-        </a>
-        <a href="pages/categories.html" class="btn-outline">EXPLORE CATEGORIES</a>
-      </div>
-    </div>
-    <div class="hero-scroll-indicator">
-      <span>Scroll</span>
-      <div class="scroll-arrow"></div>
-    </div>
-  </section>
-
-  <!-- MARQUEE -->
-  <div class="marquee-section">
-    <div class="marquee-track" id="marquee-track">
-      <span class="marquee-item">Premium Quality <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item">Authentic Jerseys <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item">Fast Delivery <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item">Limited Drops <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item">Street Ready <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item">Prime Kits Store <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item">Premium Quality <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item">Authentic Jerseys <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item">Fast Delivery <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item">Limited Drops <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item">Street Ready <span class="marquee-sep">✦</span></span>
-      <span class="marquee-item">Prime Kits Store <span class="marquee-sep">✦</span></span>
-    </div>
-  </div>
-
-  <!-- CATEGORIES SECTION -->
-  <section class="section" id="categories-section">
-    <div class="section-inner">
-      <div class="section-header animate-on-scroll">
-        <p class="section-eyebrow">Shop By Style</p>
-        <h2 class="section-title">EXPLORE <span>CATEGORIES</span></h2>
-        <div class="section-divider"><span class="section-divider-icon">✦</span></div>
-      </div>
-      <div class="categories-grid" id="home-categories-grid">
-        <!-- Populated by JS -->
-        <div class="cat-skeleton"></div>
-        <div class="cat-skeleton"></div>
-        <div class="cat-skeleton"></div>
-        <div class="cat-skeleton"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEATURED PRODUCTS -->
-  <section class="section" id="featured-section" style="padding-top:0;">
-    <div class="section-inner">
-      <div class="section-header animate-on-scroll">
-        <p class="section-eyebrow">New Arrivals</p>
-        <h2 class="section-title">FEATURED <span>DROPS</span></h2>
-        <div class="section-divider"><span class="section-divider-icon">✦</span></div>
-      </div>
-      <div class="filter-bar" id="home-filter-bar">
-        <button class="filter-chip active" data-filter="all">All</button>
-      </div>
-      <div class="products-grid" id="featured-products-grid">
-        <!-- Populated by JS -->
-      </div>
-      <div style="text-align:center;margin-top:48px;" class="animate-on-scroll">
-        <a href="pages/shop.html" class="btn-outline">VIEW ALL PRODUCTS <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i></a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEATURED BANNER -->
-  <section class="section" style="padding-top:0;">
-    <div class="section-inner">
-      <div class="featured-banner animate-on-scroll">
-        <div class="featured-banner-text">
-          <h2 data-cms="banner-title">THE <span>PRIME</span><br>COLLECTION</h2>
-          <p data-cms="banner-subtitle">Limited edition drops. Only the finest cuts for the streets of Phnom Penh and beyond.</p>
-          <a href="pages/shop.html" class="btn-primary">SHOP THE COLLECTION</a>
-        </div>
-        <div class="featured-banner-img">
-          <img src="assets/logo.png" alt="Prime Kits Collection" id="banner-img" style="object-fit:contain;padding:20px;background:#111;" />
+        <div class="contact-form-wrap">
+          <form class="contact-form" onsubmit="submitContact(event)">
+            <div class="form-group">
+              <label>Your Name</label>
+              <input type="text" placeholder="Enter your name" required />
+            </div>
+            <div class="form-group">
+              <label>Phone / Telegram</label>
+              <input type="tel" placeholder="+855 XX XXX XXXX" required />
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea rows="4" placeholder="How can we help you?" required></textarea>
+            </div>
+            <button type="submit" class="btn-gold full-width">SEND MESSAGE →</button>
+          </form>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FEATURES STRIP -->
-  <section class="section" style="padding:0 24px 80px;">
+  <!-- FAQ SECTION -->
+  <section class="faq-section" id="faq">
     <div class="section-inner">
-      <div class="features-strip">
-        <div class="feature-item animate-on-scroll">
-          <div class="feature-icon">🚚</div>
-          <div class="feature-title">Fast Shipping</div>
-          <div class="feature-desc" data-cms="feature-shipping">J&T, Vireak Buntham & more</div>
+      <div class="section-header">
+        <p class="section-eyebrow">QUESTIONS ANSWERED</p>
+        <h2 class="section-title">FAQ</h2>
+      </div>
+      <div class="faq-list" id="faqList">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Are these jerseys authentic?<span>+</span></button>
+          <div class="faq-a"><p>All our jerseys are premium grade quality — carefully sourced and verified before sale. We describe each product honestly so you know exactly what you're getting.</p></div>
         </div>
-        <div class="feature-item animate-on-scroll">
-          <div class="feature-icon">✅</div>
-          <div class="feature-title">Authentic Quality</div>
-          <div class="feature-desc" data-cms="feature-quality">100% premium materials</div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">What sizes are available?<span>+</span></button>
+          <div class="faq-a"><p>We stock sizes from S to 3XL for most jerseys. Size availability is shown on each product page. Contact us if you need help choosing the right size.</p></div>
         </div>
-        <div class="feature-item animate-on-scroll">
-          <div class="feature-icon">🔒</div>
-          <div class="feature-title">Secure Payment</div>
-          <div class="feature-desc" data-cms="feature-payment">ABA QR — Fast & Safe</div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">How do I pay?<span>+</span></button>
+          <div class="faq-a"><p>We accept ABA Bank (KHQR), ACLEDA Bank, and Visa Card payments. After placing your order, scan our QR code and upload your payment screenshot to confirm.</p></div>
         </div>
-        <div class="feature-item animate-on-scroll">
-          <div class="feature-icon">💬</div>
-          <div class="feature-title">24/7 Support</div>
-          <div class="feature-desc" data-cms="feature-support">Telegram & direct contact</div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">How long does delivery take?<span>+</span></button>
+          <div class="faq-a"><p>Orders within Phnom Penh are typically delivered same-day or next-day. Provincial deliveries take 2–4 business days. We partner with trusted local couriers.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">What is your return policy?<span>+</span></button>
+          <div class="faq-a"><p>We accept returns within 14 days of delivery. Items must be unworn, unwashed, and in original condition. Contact us to initiate a return.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Can I get a custom name & number?<span>+</span></button>
+          <div class="faq-a"><p>Yes! Contact us via Telegram for customisation options. Custom printing typically adds 1–2 days to processing time.</p></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SOCIAL STRIP -->
-  <section class="section" style="padding:0 24px 40px;">
+  <!-- SHIPPING POLICY -->
+  <section class="policy-section" id="shipping">
     <div class="section-inner">
-      <div style="text-align:center;margin-bottom:32px;" class="animate-on-scroll">
-        <p class="section-eyebrow">Follow Us</p>
-        <h2 class="section-title" style="font-size:clamp(1.5rem,4vw,2.5rem);">STAY <span>CONNECTED</span></h2>
+      <div class="policy-card">
+        <h2 class="section-title">🚚 Shipping <span class="gold-text">Policy</span></h2>
+        <ul class="policy-list">
+          <li><strong>Free delivery</strong> on orders over $50 within Phnom Penh.</li>
+          <li>Standard delivery: $2–$5 within Phnom Penh (1–2 days).</li>
+          <li>Provincial delivery: $5–$10 (2–4 business days).</li>
+          <li>Orders confirmed before 2PM are dispatched same day.</li>
+          <li>You'll receive a tracking update once your order ships.</li>
+        </ul>
       </div>
-      <div class="social-strip" id="social-links-strip">
-        <!-- Populated from Firestore settings -->
+      <div class="policy-card">
+        <h2 class="section-title">🔄 Returns & <span class="gold-text">Refunds</span></h2>
+        <ul class="policy-list">
+          <li>Returns accepted within <strong>14 days</strong> of delivery.</li>
+          <li>Item must be unused, unwashed, tags attached.</li>
+          <li>Contact us with your order number to start a return.</li>
+          <li>Refunds processed within 3–5 business days.</li>
+          <li>Customised items are non-returnable unless defective.</li>
+        </ul>
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer id="footer">
-    <div class="footer-inner">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <div class="footer-brand-name" data-cms="store-name">PRIME KITS</div>
-          <p class="footer-tagline" data-cms="footer-tagline">Premium streetwear for the bold.</p>
-          <div class="social-strip" id="footer-social" style="padding:0;justify-content:flex-start;gap:12px;flex-wrap:wrap;"></div>
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="logo-crown">♛</span>
+          <div class="logo-text">
+            <span class="logo-main">PRIME KITS</span>
+            <span class="logo-sub">PREMIUM · EST. 2026</span>
+          </div>
         </div>
+        <p class="footer-tagline">Premium football jerseys for the real fans. Club, national, and retro kits — curated with passion.</p>
+      </div>
+      <div class="footer-links">
         <div class="footer-col">
           <h4>Shop</h4>
-          <ul>
-            <li><a href="pages/shop.html">All Products</a></li>
-            <li><a href="pages/categories.html">Categories</a></li>
-            <li><a href="pages/shop.html?filter=new">New Arrivals</a></li>
-            <li><a href="pages/shop.html?filter=sale">Sale</a></li>
-          </ul>
+          <a href="#shop" onclick="filterByCategory('club')">Club Kits</a>
+          <a href="#shop" onclick="filterByCategory('national')">National Teams</a>
+          <a href="#shop" onclick="filterByCategory('retro')">Retro Classics</a>
+          <a href="#shop" onclick="filterByCategory('streetwear')">Streetwear</a>
         </div>
         <div class="footer-col">
           <h4>Info</h4>
-          <ul>
-            <li><a href="pages/contact.html">Contact Us</a></li>
-            <li><a href="pages/shipping.html">Shipping Info</a></li>
-            <li><a href="pages/returns.html">Returns</a></li>
-            <li><a href="pages/faq.html">FAQ</a></li>
-          </ul>
+          <a href="#about">About Us</a>
+          <a href="#contact">Contact</a>
+          <a href="#faq">FAQ</a>
+          <a href="#shipping">Shipping & Returns</a>
         </div>
         <div class="footer-col">
-          <h4>Contact</h4>
-          <ul id="footer-contact-list">
-            <li><a href="#"><i class="fa-solid fa-phone" style="color:var(--gold);margin-right:8px;"></i><span data-cms="contact-phone">Loading…</span></a></li>
-            <li><a href="#"><i class="fa-solid fa-envelope" style="color:var(--gold);margin-right:8px;"></i><span data-cms="contact-email">Loading…</span></a></li>
-            <li><a href="#"><i class="fa-solid fa-location-dot" style="color:var(--gold);margin-right:8px;"></i><span data-cms="contact-address">Loading…</span></a></li>
-          </ul>
+          <h4>Payment</h4>
+          <div class="payment-badges">
+            <span class="pay-badge">ABA</span>
+            <span class="pay-badge">ACLEDA</span>
+            <span class="pay-badge">VISA</span>
+            <span class="pay-badge">KHQR</span>
+          </div>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>© <span id="footer-year"></span> <span data-cms="store-name">Prime Kits Store</span>. All rights reserved.</p>
-        <p>Made with <span style="color:var(--gold);">✦</span> in Cambodia</p>
-      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Prime Kits Premium. All rights reserved. Phnom Penh, Cambodia.</p>
     </div>
   </footer>
 
-  <!-- FIREBASE -->
-  <script type="module" src="js/firebase-config.js"></script>
-  <script type="module" src="js/store.js"></script>
-  <script type="module" src="js/cart.js"></script>
-  <script type="module" src="js/ui.js"></script>
-  <script type="module" src="js/home.js"></script>
+  <!-- ══════════════════════════════════════════════════════
+       ADMIN PANEL (MODAL)
+  ══════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="adminPanel">
+    <div class="modal-box admin-modal-box" id="adminModalBox">
+      <button class="modal-close" onclick="toggleAdmin()">✕</button>
+      <div class="admin-inner">
+        <div class="admin-tabs">
+          <button class="admin-tab active" onclick="switchAdminTab('products', this)">📦 Products</button>
+          <button class="admin-tab" onclick="switchAdminTab('orders', this)">📋 Orders</button>
+          <button class="admin-tab" onclick="switchAdminTab('settings', this)">⚙ Settings</button>
+        </div>
 
+        <!-- PRODUCTS TAB -->
+        <div class="admin-tab-content" id="adminTabProducts">
+          <h2 class="admin-section-title">PRODUCT MANAGEMENT</h2>
+          <form class="admin-form" id="productForm" onsubmit="addProduct(event)">
+            <div class="form-grid">
+              <div class="form-group span-2">
+                <label>Product Name *</label>
+                <input type="text" id="prodName" placeholder="e.g. FC Barcelona Home 2025/26" required />
+              </div>
+              <div class="form-group">
+                <label>Price (USD) *</label>
+                <input type="number" id="prodPrice" placeholder="29.99" step="0.01" min="0" required />
+              </div>
+              <div class="form-group">
+                <label>Original Price (for sale)</label>
+                <input type="number" id="prodOriginalPrice" placeholder="39.99" step="0.01" min="0" />
+              </div>
+              <div class="form-group">
+                <label>Category</label>
+                <select id="prodCategory">
+                  <option value="club">Club</option>
+                  <option value="national">National</option>
+                  <option value="retro">Retro</option>
+                  <option value="streetwear">Streetwear</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Stock Status</label>
+                <select id="prodStock">
+                  <option value="in-stock">In Stock</option>
+                  <option value="low-stock">Low Stock</option>
+                  <option value="out-of-stock">Out of Stock</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Tags (featured, bestseller, new)</label>
+                <div class="tags-check-row">
+                  <label class="check-label"><input type="checkbox" id="tagFeatured" value="featured" /> Featured</label>
+                  <label class="check-label"><input type="checkbox" id="tagBestseller" value="bestseller" /> Best Seller</label>
+                  <label class="check-label"><input type="checkbox" id="tagNew" value="new" /> New Arrival</label>
+                </div>
+              </div>
+              <div class="form-group span-2">
+                <label>Description</label>
+                <textarea id="prodDesc" placeholder="Describe the jersey, material, fit, season…" rows="3"></textarea>
+              </div>
+              <div class="form-group span-2">
+                <label>Image URL</label>
+                <input type="url" id="prodImageUrl" placeholder="https://example.com/jersey.jpg" />
+              </div>
+              <div class="form-group span-2">
+                <label>— OR Upload Image File —</label>
+                <input type="file" id="prodImageFile" accept="image/*" />
+              </div>
+            </div>
+            <div class="admin-form-actions">
+              <button type="submit" class="btn-gold">+ ADD PRODUCT</button>
+              <button type="button" class="btn-ghost" onclick="document.getElementById('productForm').reset()">CLEAR</button>
+            </div>
+          </form>
+
+          <div class="admin-product-list" id="adminProductList">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- ORDERS TAB -->
+        <div class="admin-tab-content hidden" id="adminTabOrders">
+          <div class="admin-orders-header">
+            <h2 class="admin-section-title">ORDERS RECEIVED</h2>
+            <button class="btn-ghost small" onclick="clearOrders()">Clear All</button>
+          </div>
+          <div id="orderList" class="order-list">
+            <p class="empty-msg">No orders yet.</p>
+          </div>
+        </div>
+
+        <!-- SETTINGS TAB -->
+        <div class="admin-tab-content hidden" id="adminTabSettings">
+          <h2 class="admin-section-title">TELEGRAM NOTIFICATIONS</h2>
+          <div class="form-group">
+            <label>Telegram Bot Token</label>
+            <input type="text" id="tgToken" placeholder="123456:ABCdef..." />
+          </div>
+          <div class="form-group">
+            <label>Telegram Chat ID</label>
+            <input type="text" id="tgChatId" placeholder="Your chat ID" />
+          </div>
+          <button class="btn-gold" onclick="saveTelegramSettings()">SAVE SETTINGS</button>
+          <button class="btn-ghost" onclick="testTelegram()" style="margin-left:10px">TEST NOTIFICATION</button>
+          <p class="settings-note">Get your bot token from @BotFather on Telegram. Get your chat ID by messaging @userinfobot.</p>
+
+          <h2 class="admin-section-title" style="margin-top:32px">PAYMENT QR CODES</h2>
+          <div class="form-group">
+            <label>ABA Bank QR Image URL</label>
+            <input type="url" id="abaQrUrl" placeholder="https://..." />
+          </div>
+          <div class="form-group">
+            <label>ACLEDA Bank QR Image URL</label>
+            <input type="url" id="acledaQrUrl" placeholder="https://..." />
+          </div>
+          <button class="btn-gold" onclick="savePaymentSettings()">SAVE PAYMENT SETTINGS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       PRODUCT DETAIL MODAL
+  ══════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="productModal" onclick="closeModal(event)">
+    <div class="modal-box product-modal-box" id="modalBox">
+      <button class="modal-close" onclick="closeProductModal()">✕</button>
+      <div class="modal-content" id="modalContent">
+        <!-- filled by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       CHECKOUT / ORDER MODAL
+  ══════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="orderModal" onclick="closeOrderModal(event)">
+    <div class="modal-box order-modal-box" id="orderModalBox">
+      <button class="modal-close" onclick="closeOrderModal()">✕</button>
+
+      <!-- STEP 1: ORDER FORM -->
+      <div id="orderStep1">
+        <div class="modal-header-section">
+          <h2 class="modal-title">PLACE YOUR ORDER</h2>
+          <p class="order-product-name" id="orderProductName"></p>
+        </div>
+        <form class="order-form" id="orderForm" onsubmit="goToPaymentStep(event)">
+          <div class="order-form-grid">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" id="orderName" placeholder="Your name" required />
+            </div>
+            <div class="form-group">
+              <label>Phone / Telegram *</label>
+              <input type="tel" id="orderPhone" placeholder="+855 XX XXX XXXX" required />
+            </div>
+            <div class="form-group">
+              <label>Size *</label>
+              <select id="orderSize" required>
+                <option value="">Select size</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="2XL">2XL</option>
+                <option value="3XL">3XL</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Quantity *</label>
+              <input type="number" id="orderQty" value="1" min="1" max="99" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Delivery Address *</label>
+            <textarea id="orderLocation" placeholder="Full delivery address…" rows="2" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Notes (optional)</label>
+            <textarea id="orderNotes" placeholder="Any special requests, customisation…" rows="2"></textarea>
+          </div>
+          <div class="order-total-row">
+            <span>Order Total:</span>
+            <span class="order-total" id="orderTotal">$0.00</span>
+          </div>
+          <button type="submit" class="btn-gold full-width">PROCEED TO PAYMENT →</button>
+        </form>
+      </div>
+
+      <!-- STEP 2: PAYMENT -->
+      <div id="orderStep2" style="display:none">
+        <div class="modal-header-section">
+          <h2 class="modal-title">SELECT PAYMENT</h2>
+          <p class="step-indicator">Step 2 of 3</p>
+        </div>
+        <div class="payment-options">
+          <button class="pay-option" onclick="selectPayment('aba')" id="payOptAba">
+            <div class="pay-opt-inner">
+              <span class="pay-opt-icon">🏦</span>
+              <div>
+                <strong>ABA Bank</strong>
+                <span>KHQR / QR Code</span>
+              </div>
+            </div>
+          </button>
+          <button class="pay-option" onclick="selectPayment('acleda')" id="payOptAcleda">
+            <div class="pay-opt-inner">
+              <span class="pay-opt-icon">🏦</span>
+              <div>
+                <strong>ACLEDA Bank</strong>
+                <span>QR Code Payment</span>
+              </div>
+            </div>
+          </button>
+          <button class="pay-option" onclick="selectPayment('visa')" id="payOptVisa">
+            <div class="pay-opt-inner">
+              <span class="pay-opt-icon">💳</span>
+              <div>
+                <strong>Visa / Card</strong>
+                <span>Bank Transfer</span>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div class="qr-display" id="qrDisplay" style="display:none">
+          <div class="qr-instructions">
+            <p>1. Open your banking app</p>
+            <p>2. Tap Scan / QR Pay</p>
+            <p>3. Point at the code below</p>
+          </div>
+          <div class="qr-box" id="qrBox">
+            <!-- QR image injected by JS -->
+          </div>
+          <div class="qr-amount-row">
+            <span>Amount to Pay:</span>
+            <strong id="qrAmount"></strong>
+          </div>
+          <p class="qr-note">After paying, upload your screenshot below</p>
+        </div>
+        <div class="visa-info" id="visaInfo" style="display:none">
+          <p class="visa-text">Please contact us via Telegram to arrange card payment:</p>
+          <div class="contact-badge">📱 Telegram: @PrimeKitsPremium</div>
+        </div>
+        <div class="screenshot-upload" id="screenshotUpload" style="display:none">
+          <div class="form-group">
+            <label>Upload Payment Screenshot *</label>
+            <div class="file-drop-zone" id="fileDrop" onclick="document.getElementById('screenshotFile').click()">
+              <span class="drop-icon">📷</span>
+              <span class="drop-text">Tap to upload screenshot</span>
+            </div>
+            <input type="file" id="screenshotFile" accept="image/*" style="display:none" onchange="previewScreenshot(this)" />
+            <div id="screenshotPreview" style="display:none">
+              <img id="screenshotImg" alt="Payment screenshot" />
+              <button type="button" onclick="clearScreenshot()" class="clear-ss-btn">✕ Remove</button>
+            </div>
+          </div>
+        </div>
+        <div class="payment-step-actions" id="payStepActions" style="display:none">
+          <button class="btn-gold full-width" onclick="confirmPaymentAndSubmit()">CONFIRM ORDER →</button>
+          <button class="btn-ghost full-width" onclick="goBackToStep1()">← Go Back</button>
+        </div>
+        <div style="margin-top:16px">
+          <button class="btn-ghost full-width" style="opacity:0.6" onclick="goBackToStep1()">← Back to Details</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: SUCCESS -->
+      <div class="order-success" id="orderStep3" style="display:none">
+        <div class="success-icon">✓</div>
+        <h2>ORDER CONFIRMED!</h2>
+        <p class="order-ref" id="successOrderRef"></p>
+        <p>Thank you! We'll contact you shortly to confirm delivery details. Check your Telegram/WhatsApp.</p>
+        <button class="btn-gold" onclick="closeOrderModal()">CONTINUE SHOPPING →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CART DRAWER -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCartOverlay(event)">
+    <div class="cart-drawer" id="cartDrawer">
+      <div class="cart-header">
+        <h2>YOUR CART</h2>
+        <button onclick="closeCart()" class="modal-close">✕</button>
+      </div>
+      <div class="cart-items" id="cartItems">
+        <p class="empty-msg">Your cart is empty.</p>
+      </div>
+      <div class="cart-footer" id="cartFooter" style="display:none">
+        <div class="cart-total-row">
+          <span>Subtotal</span>
+          <span id="cartTotal">$0.00</span>
+        </div>
+        <button class="btn-gold full-width" onclick="checkoutCart()">CHECKOUT →</button>
+        <button class="btn-ghost full-width" onclick="clearCart()">Clear Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WISHLIST DRAWER -->
+  <div class="cart-overlay" id="wishlistOverlay" onclick="closeWishlistOverlay(event)">
+    <div class="cart-drawer" id="wishlistDrawer">
+      <div class="cart-header">
+        <h2>WISHLIST ♥</h2>
+        <button onclick="closeWishlist()" class="modal-close">✕</button>
+      </div>
+      <div class="cart-items" id="wishlistItems">
+        <p class="empty-msg">Your wishlist is empty.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
